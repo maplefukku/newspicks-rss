@@ -24,8 +24,8 @@ const feed = new Feed({
 // };
 // const slugsArr = Object.keys(slugs);
 
-Router.get("/np/original", (req, res, next) => {
-  const slug = "series"
+Router.get("/np/technology", (req, res, next) => {
+  const slug = "theme-news/technology"
   const options = {
     uri: `https://newspicks.com/${slug}`,
     method: "GET",
@@ -68,25 +68,27 @@ Router.get("/np/original", (req, res, next) => {
             .children(".user-comment")
             .text();
 
-          const article = {
-            title: title,
-            id: `https://newspicks.com/news/${id}`,
-            link: `https://newspicks.com/news/${id}`,
-            description: content,
-            content: content,
-            date: moment(String(key), "YYYYMMDDHHmmssSSS").toDate(),
-            image: `https://contents.newspicks.com/images/news/${id}`
-          };
+          if (title.includes("AI") || content.includes("AI") || title.includes("人工知能") || content.includes("人工知能")) {
+            const article = {
+              title: title,
+              id: `https://newspicks.com/news/${id}`,
+              link: `https://newspicks.com/news/${id}`,
+              description: content,
+              content: content,
+              date: moment(String(key), "YYYYMMDDHHmmssSSS").toDate(),
+              image: `https://contents.newspicks.com/images/news/${id}`
+            };
 
-          feed.addItem({
-            title: article.title,
-            id: article.id,
-            link: article.link,
-            description: article.description,
-            content: article.content,
-            date: article.date,
-            image: article.image
-          });
+            feed.addItem({
+              title: article.title,
+              id: article.id,
+              link: article.link,
+              description: article.description,
+              content: article.content,
+              date: article.date,
+              image: article.image
+            });
+          }
         }
       });
       module.parent.exports.set("last_update_at", latest_updated_ts_at);

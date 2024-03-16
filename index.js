@@ -6,7 +6,7 @@ const port = process.env.PORT || 3000;
 app.set("port", port);
 app.set("last_update_at", 0);
 
-app.use("/feed", require("./routes/feed.js"));
+app.use("/np/technology", require("./routes/feed.js"));
 
 app.use((err, req, res, next) => {
   console.log("[SERVER ERROR]", err.stack);
@@ -15,6 +15,11 @@ app.use((err, req, res, next) => {
     error: error_message
   });
 });
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the NewsPicks RSS Feed Server!');
+});
+
 
 app.listen(port);
 console.log("Server listening on http://" + host + ":" + port);
